@@ -28,8 +28,10 @@ function App() {
 		<div>
 			<h1>Web component modal example</h1>
 			<button onClick={openModal}>Open Modal</button>
+			{/* @ts-expect-error */}
 			<my-modal ref={modalRef}>
 				<h1>React + Web component in Typescript</h1>
+				{/* @ts-expect-error */}
 			</my-modal>
 		</div>
 	);
