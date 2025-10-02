@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useRef } from "react";
+import { MyModal } from "./components/web-components/MyModal";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const modalRef = useRef<MyModal>(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	useEffect(() => {
+		const modal = modalRef.current;
+		if (!modal) return;
+
+		const handleOpen = () => console.log("Modal opened");
+		const handleClose = () => console.log("Modal closed");
+
+		modal.addEventListener("modal-open", handleOpen);
+		modal.addEventListener("modal-close", handleClose);
+
+		return () => {
+			modal.removeEventListener("modal-open", handleOpen);
+			modal.removeEventListener("modal-close", handleClose);
+		};
+	}, []);
+
+	const openModal = () => {
+		modalRef.current?.show();
+	};
+
+	return (
+		<div>
+			<h1>Web component modal example</h1>
+			<button onClick={openModal}>Open Modal</button>
+			<my-modal ref={modalRef}>
+				<h1>React + Web component in Typescript</h1>
+			</my-modal>
+		</div>
+	);
 }
 
-export default App
+export default App;
